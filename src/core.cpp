@@ -32,12 +32,12 @@ namespace hh
                     const std::pair<uint8_t, uint8_t> position_range{table.size().first - 1, table.size().second - 1};
                     random_position = {random_number({0, position_range.first}), random_number({0, position_range.second})};
 
-                } while (table.is_cell_occupied(random_position) &&                                                // Make sure the entity we are spawning is not ontop of the cursor or another entity
-                         (random_position.first - table.cursor_position.first >= MIN_HEX_ENTITY_SPAWN_DISTANCE) && // Make sure the entity is far enough away
-                         (random_position.second - table.cursor_position.second >= MIN_HEX_ENTITY_SPAWN_DISTANCE));
+                } while (table.is_cell_occupied(random_position) &&                                                 // Make sure the entity we are spawning is not ontop of the cursor or another entity
+                         (random_position.first - table.cursor_position.first >= MIN_HEX_ENTITY_SPAWN_DISTANCE) &&  // Make sure the entity is far enough away
+                         (random_position.second - table.cursor_position.second >= MIN_HEX_ENTITY_SPAWN_DISTANCE)); // ^
 
-                const auto value = random_number({1, 255});
-                table.add_hex_entity(random_position, value); // Max range of unsigned 1 byte value
+                const auto value = random_number({1, 255});   // We don't want to start at 0 to differentiate between hex entities and open spaces
+                table.add_hex_entity(random_position, value); // ^ Max range of unsigned 1 byte value
                 table.next_cursor_values.push_back(value);
             }
 
@@ -95,7 +95,7 @@ namespace hh
 
             while (true)
             {
-                tick(table);
+                tick(table); // Endless run until user exits
             }
         }
     } // namespace core

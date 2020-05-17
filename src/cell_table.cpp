@@ -123,7 +123,7 @@ namespace hh
         else if (cell_movement::move_right())
             next_cursor_position = {cursor_position.first + 1, cursor_position.second};
 
-        if (!is_cell_in_range(next_cursor_position))
+        if (!is_cell_in_range(next_cursor_position)) // Desired move is out of range of the table size constraints
             return;
 
         if (is_cell_occupied(next_cursor_position) && get_cell_value(next_cursor_position) == cursor_value) // If we attempted a capture and the capture is valid
@@ -131,7 +131,7 @@ namespace hh
             cursor_position = next_cursor_position; // Update cursor position
             handle_capture();                       // Successful capture by user
         }
-        else if (!is_cell_occupied(next_cursor_position))
+        else if (!is_cell_occupied(next_cursor_position)) // The cell is empty, let the user move to it
             cursor_position = next_cursor_position;
     }
 

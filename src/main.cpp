@@ -2,7 +2,7 @@
 
 int main()
 {
-    hh::core::setup();
+    hh::core::setup(); // Begin initial setup
 
     return 0;
 }
