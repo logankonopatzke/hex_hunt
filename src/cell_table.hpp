@@ -29,7 +29,9 @@ namespace hh
 
         bool is_cell_in_range(const std::pair<uint8_t, uint8_t> &pos);
 
-        uint8_t get_cell_value(const std::pair<uint8_t, uint8_t> &pos);
+        uint8_t &get_cell_value(const std::pair<uint8_t, uint8_t> &pos); // We can modify the value at the selected position because we return a reference
+
+        void handle_capture();
 
         void handle_movement();
 
@@ -38,5 +40,6 @@ namespace hh
     public:
         std::pair<uint8_t, uint8_t> cursor_position = std::make_pair<uint8_t, uint8_t>(DEFAULT_CURSOR_X, DEFAULT_CURSOR_Y); // Let's setup our default position
         uint8_t cursor_value = 99;
+        std::vector<uint8_t> next_cursor_values;
     };
 } // namespace hh

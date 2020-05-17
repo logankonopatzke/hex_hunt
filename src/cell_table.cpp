@@ -6,6 +6,7 @@
 
 #include "general_config.hpp"
 #include "cell_movement.hpp"
+#include "score_tracker.hpp"
 
 namespace hh
 {
@@ -91,9 +92,21 @@ namespace hh
                && (pos.second >= 0 && pos.second <= size().second - 1); // Verify in range on y axis
     }
 
-    uint8_t cell_table::get_cell_value(const std::pair<uint8_t, uint8_t> &pos)
+    uint8_t &cell_table::get_cell_value(const std::pair<uint8_t, uint8_t> &pos)
     {
         return table.at(pos.second).at(pos.first);
+    }
+
+    void cell_table::handle_capture()
+    {
+        if (next_cursor_values.size() > 1) // The game should end on the next tick due to the max score being reached
+        {
+            next_cursor_values.pop_back();            // Eliminate previously used value
+            cursor_value = next_cursor_values.back(); // Update cursor value
+        }
+        score_tracker::current_score += SCORE_INCREMENT_PER_CAPTURE; // Increase score
+        get_cell_value({cursor_position}) = 0;                       // Purge the hex value from the table
+        // We can simply use the position of our cursor because we have captured the hex entity
     }
 
     void cell_table::handle_movement()
@@ -104,8 +117,11 @@ namespace hh
             if (!is_cell_in_range(next_cursor_position))
                 return;
 
-            if (is_cell_occupied(next_cursor_position) && get_cell_value(next_cursor_position) == cursor_value)
-                cursor_position = next_cursor_position;
+            if (is_cell_occupied(next_cursor_position) && get_cell_value(next_cursor_position) == cursor_value) // If we attempted a capture and the capture is valid
+            {
+                cursor_position = next_cursor_position; // Update cursor position
+                handle_capture();                       // Successful capture by user
+            }
             else if (!is_cell_occupied(next_cursor_position))
                 cursor_position = next_cursor_position;
         }
@@ -116,7 +132,10 @@ namespace hh
                 return;
 
             if (is_cell_occupied(next_cursor_position) && get_cell_value(next_cursor_position) == cursor_value)
+            {
                 cursor_position = next_cursor_position;
+                handle_capture();
+            }
             else if (!is_cell_occupied(next_cursor_position))
                 cursor_position = next_cursor_position;
         }
@@ -127,7 +146,10 @@ namespace hh
                 return;
 
             if (is_cell_occupied(next_cursor_position) && get_cell_value(next_cursor_position) == cursor_value)
+            {
                 cursor_position = next_cursor_position;
+                handle_capture();
+            }
             else if (!is_cell_occupied(next_cursor_position))
                 cursor_position = next_cursor_position;
         }
@@ -138,7 +160,10 @@ namespace hh
                 return;
 
             if (is_cell_occupied(next_cursor_position) && get_cell_value(next_cursor_position) == cursor_value)
+            {
                 cursor_position = next_cursor_position;
+                handle_capture();
+            }
             else if (!is_cell_occupied(next_cursor_position))
                 cursor_position = next_cursor_position;
         }
