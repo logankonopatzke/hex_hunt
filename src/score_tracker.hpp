@@ -12,5 +12,6 @@ namespace hh
         extern uint16_t current_score; // This should be of enough size to hold the score
 
         void display();
+        void handle_win();
     } // namespace score_tracker
 } // namespace hh
