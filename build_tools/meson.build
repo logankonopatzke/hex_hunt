@@ -38,7 +38,7 @@ endforeach
 
 hex_hunt = executable(
   'hex_hunt',
-  files(['../src/main.cpp', '../src/cell_table.cpp', '../src/cell_movement_linux.cpp', '../src/score_tracker.cpp', '../src/core.cpp']),
+  files(['../src/main.cpp', '../src/cell_table.cpp', '../src/cell_movement.cpp', '../src/score_tracker.cpp', '../src/core.cpp']),
   c_args : c_compile_args + compile_args + compile_args_external,
   cpp_args : cpp_compile_args + compile_args + compile_args_external,
   link_args : compile_args + compile_args_external + link_args + link_args_external,
