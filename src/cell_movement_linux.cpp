@@ -3,8 +3,11 @@
 #include <X11/Xlib.h>
 #include "X11/keysym.h"
 
+#define LINUX
+
 namespace hh
 {
+#ifdef LINUX
     /*
     Function inspired by https://stackoverflow.com/a/52801588
     */
@@ -20,6 +23,7 @@ namespace hh
 
         return is_pressed;
     }
+#endif
 
     bool cell_movement::move_up()
     {
@@ -45,4 +49,4 @@ namespace hh
     {
         return move_up() || move_down() || move_left() || move_right();
     }
-}
+} // namespace hh
