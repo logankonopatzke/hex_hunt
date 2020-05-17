@@ -99,6 +99,7 @@ namespace hh
 
     void cell_table::handle_capture()
     {
+        std::cout << '\a';
         if (next_cursor_values.size() > 1) // The game should end on the next tick due to the max score being reached
         {
             next_cursor_values.pop_back();            // Eliminate previously used value
@@ -111,62 +112,27 @@ namespace hh
 
     void cell_table::handle_movement()
     {
+        std::pair<uint8_t, uint8_t> next_cursor_position{cursor_position};
+
         if (cell_movement::move_up())
-        {
-            const std::pair<uint8_t, uint8_t> next_cursor_position{cursor_position.first, cursor_position.second - 1};
-            if (!is_cell_in_range(next_cursor_position))
-                return;
-
-            if (is_cell_occupied(next_cursor_position) && get_cell_value(next_cursor_position) == cursor_value) // If we attempted a capture and the capture is valid
-            {
-                cursor_position = next_cursor_position; // Update cursor position
-                handle_capture();                       // Successful capture by user
-            }
-            else if (!is_cell_occupied(next_cursor_position))
-                cursor_position = next_cursor_position;
-        }
+            next_cursor_position = {cursor_position.first, cursor_position.second - 1};
         else if (cell_movement::move_down())
-        {
-            const std::pair<uint8_t, uint8_t> next_cursor_position{cursor_position.first, cursor_position.second + 1};
-            if (!is_cell_in_range(next_cursor_position))
-                return;
-
-            if (is_cell_occupied(next_cursor_position) && get_cell_value(next_cursor_position) == cursor_value)
-            {
-                cursor_position = next_cursor_position;
-                handle_capture();
-            }
-            else if (!is_cell_occupied(next_cursor_position))
-                cursor_position = next_cursor_position;
-        }
+            next_cursor_position = {cursor_position.first, cursor_position.second + 1};
         else if (cell_movement::move_left())
-        {
-            const std::pair<uint8_t, uint8_t> next_cursor_position{cursor_position.first - 1, cursor_position.second};
-            if (!is_cell_in_range(next_cursor_position))
-                return;
-
-            if (is_cell_occupied(next_cursor_position) && get_cell_value(next_cursor_position) == cursor_value)
-            {
-                cursor_position = next_cursor_position;
-                handle_capture();
-            }
-            else if (!is_cell_occupied(next_cursor_position))
-                cursor_position = next_cursor_position;
-        }
+            next_cursor_position = {cursor_position.first - 1, cursor_position.second};
         else if (cell_movement::move_right())
-        {
-            const std::pair<uint8_t, uint8_t> next_cursor_position{cursor_position.first + 1, cursor_position.second};
-            if (!is_cell_in_range(next_cursor_position))
-                return;
+            next_cursor_position = {cursor_position.first + 1, cursor_position.second};
 
-            if (is_cell_occupied(next_cursor_position) && get_cell_value(next_cursor_position) == cursor_value)
-            {
-                cursor_position = next_cursor_position;
-                handle_capture();
-            }
-            else if (!is_cell_occupied(next_cursor_position))
-                cursor_position = next_cursor_position;
+        if (!is_cell_in_range(next_cursor_position))
+            return;
+
+        if (is_cell_occupied(next_cursor_position) && get_cell_value(next_cursor_position) == cursor_value) // If we attempted a capture and the capture is valid
+        {
+            cursor_position = next_cursor_position; // Update cursor position
+            handle_capture();                       // Successful capture by user
         }
+        else if (!is_cell_occupied(next_cursor_position))
+            cursor_position = next_cursor_position;
     }
 
 } // namespace hh
