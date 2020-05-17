@@ -44,7 +44,7 @@ namespace hh
             table.cursor_value = table.next_cursor_values.back();
         }
 
-        static void tick(cell_table table)
+        static void tick(cell_table &table)
         {
             auto refresh_table = [&table]() -> void {
                 system("clear");
@@ -64,10 +64,10 @@ namespace hh
 
                 if (score_tracker::current_score == score_tracker::max_score) // If the the user has captured all the hex entities
                 {
+                    refresh_table();                                              // Refresh the table to prepare for next round
                     score_tracker::handle_win();                                  // Display win to the user and handle necessary modification to score
                     table.cursor_position = {DEFAULT_CURSOR_X, DEFAULT_CURSOR_Y}; // Reset cursor position
                     generate_entities(table);                                     // Regenerate entities to allow the user to keep playing
-                    refresh_table();                                              // Refresh the table to prepare for next round
                 }
 
                 refresh_table(); // Update table to reflect movement input
