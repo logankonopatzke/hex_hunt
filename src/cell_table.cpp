@@ -99,7 +99,7 @@ namespace hh
 
     void cell_table::handle_capture()
     {
-        std::cout << '\a';
+        std::cout << '\a';                 // Eminate beep sound
         if (next_cursor_values.size() > 1) // The game should end on the next tick due to the max score being reached
         {
             next_cursor_values.pop_back();            // Eliminate previously used value
