@@ -110,18 +110,18 @@ namespace hh
         // We can simply use the position of our cursor because we have captured the hex entity
     }
 
-    void cell_table::handle_movement()
+    void cell_table::handle_movement() // Handle input arrow keypresses
     {
         std::pair<uint8_t, uint8_t> next_cursor_position{cursor_position};
 
         if (cell_movement::move_up())
-            next_cursor_position = {cursor_position.first, cursor_position.second - 1};
+            next_cursor_position = {cursor_position.first, cursor_position.second - 1}; // Up 1 unit
         else if (cell_movement::move_down())
-            next_cursor_position = {cursor_position.first, cursor_position.second + 1};
+            next_cursor_position = {cursor_position.first, cursor_position.second + 1}; // Down 1 unit
         else if (cell_movement::move_left())
-            next_cursor_position = {cursor_position.first - 1, cursor_position.second};
+            next_cursor_position = {cursor_position.first - 1, cursor_position.second}; // Left 1 unit
         else if (cell_movement::move_right())
-            next_cursor_position = {cursor_position.first + 1, cursor_position.second};
+            next_cursor_position = {cursor_position.first + 1, cursor_position.second}; // Right 1 unit
 
         if (!is_cell_in_range(next_cursor_position)) // Desired move is out of range of the table size constraints
             return;
@@ -132,7 +132,7 @@ namespace hh
             handle_capture();                       // Successful capture by user
         }
         else if (!is_cell_occupied(next_cursor_position)) // The cell is empty, let the user move to it
-            cursor_position = next_cursor_position;
+            cursor_position = next_cursor_position;       // Set the position
     }
 
 } // namespace hh
